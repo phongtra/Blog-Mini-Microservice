@@ -1,10 +1,12 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import { randomBytes } from 'crypto';
+import cors from 'cors';
 
 const app = express();
 
 const posts = {};
+app.use(cors());
 app.use(bodyParser.json());
 app.get('/posts', (req, res) => {
   res.send(posts);

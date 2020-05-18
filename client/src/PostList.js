@@ -8,7 +8,7 @@ export default () => {
 
   useEffect(() => {
     const fetchPost = async () => {
-      const res = await axios.get('http://localhost:4000/posts');
+      const res = await axios.get('http://localhost:4002/posts');
       setPosts(res.data);
     };
     fetchPost();
@@ -16,18 +16,18 @@ export default () => {
   const renderPosts = Object.values(posts).map((post) => (
     <div
       key={post.id}
-      className="card"
+      className='card'
       style={{ width: '30%', marginBottom: '20px' }}
     >
-      <div className="card-body">
-        <CommentList postId={post.id} />
+      <div className='card-body'>
+        <CommentList comments={post.comments} />
         <h3>{post.title}</h3>
         <CommentCreate postId={post.id} />
       </div>
     </div>
   ));
   return (
-    <div className="d-flex flex-row flex-wrap justify-content-between">
+    <div className='d-flex flex-row flex-wrap justify-content-between'>
       {renderPosts}
     </div>
   );

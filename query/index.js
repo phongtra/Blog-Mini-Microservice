@@ -1,0 +1,43 @@
+import express from 'express';
+import bodyParser from 'body-parser';
+import cors from 'cors';
+import axios from 'axios';
+
+const app = express();
+app.use(bodyParser.json());
+app.use(cors());
+
+const posts = {};
+const handleEvents = (type, data) => {
+  if (type === 'Post Created') {
+    const { id, title } = data;
+    posts[id] = { id, title, comments: [] };
+  } else if (type === 'Comment Created') {
+    const { id, content, postId, status } = data;
+    posts[postId].comments.push({ id, content, status });
+  } else if (type === 'Comment Updated') {
+    const { id, content, postId, status } = data;
+    const post = posts[postId];
+    const comment = post.comments.find((comment) => comment.id === id);
+    comment.status = status;
+    comment.content = content;
+  }
+};
+app.get('/posts', (req, res) => {
+  res.send(posts);
+});
+
+app.post('/events', (req, res) => {
+  const { type, data } = req.body;
+  handleEvents(type, data);
+  res.end();
+});
+
+app.listen(4002, async () => {
+  console.log('Listening on: 4002');
+  const res = await axios.get('http://localhost:4005/events');
+  for (let event of res.data) {
+    console.log('Processing event', event.type);
+    handleEvents(event.type, event.data);
+  }
+});

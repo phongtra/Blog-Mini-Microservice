@@ -21,8 +21,8 @@ app.post('/posts', async (req, res) => {
     type: 'Post Created',
     data: {
       id,
-      title,
-    },
+      title
+    }
   });
   res.status(201).send(posts[id]);
 });
@@ -34,5 +34,6 @@ app.post('/events', (req, res) => {
 });
 
 app.listen(4000, () => {
+  console.log('Version 20');
   console.log('Listening on 4000');
 });

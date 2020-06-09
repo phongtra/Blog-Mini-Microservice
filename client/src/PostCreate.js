@@ -5,23 +5,23 @@ export default () => {
   const [title, setTitle] = useState('');
   const onSubmit = async (e) => {
     e.preventDefault();
-    await axios.post('http://localhost:4000/posts', {
-      title,
+    await axios.post('http://posts.com/posts', {
+      title
     });
     setTitle('');
   };
   return (
     <div>
       <form onSubmit={onSubmit}>
-        <div className="form-group">
+        <div className='form-group'>
           <label>Title</label>
           <input
             value={title}
             onChange={({ target }) => setTitle(target.value)}
-            className="form-control"
+            className='form-control'
           />
         </div>
-        <button className="btn btn-primary">Submit</button>
+        <button className='btn btn-primary'>Submit</button>
       </form>
     </div>
   );

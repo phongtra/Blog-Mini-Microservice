@@ -15,3 +15,17 @@ spec:
       containers:
         - name: events
           image: phongtran2606/event-service
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: events-srv
+spec:
+  selector:
+    app: events
+  type: ClusterIP
+  ports:
+    - name: events
+      protocol: TCP
+      port: 4005
+      targetPort: 4005
